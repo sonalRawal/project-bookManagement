@@ -1,26 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-const bookController= require('../controllers/bookController')
-const reviewController= require('../controllers/reviewController')
+const eventController= require('../controllers/eventController')
 const userController= require('../controllers/userController')
 const middleware = require('../middleware/loginmiddle')
 
+
 //user api 
- router.post("/register", userController.createUser)
- router.post("/login", userController.loginUser)
+  router.post("/register", userController.createUser)
+  router.post("/login", userController.loginUser)
+ router.put("/logOut",middleware.userAuth ,userController.logOutUser)
+ router.put("/changePassword",userController.changeUserPassword)
+ router.put("/resetPassword/:userId",userController.resetUserPassword)
+ router.put("/updatePassword/:userId", middleware.userUpdatePasswordAuth ,userController.updateUserpassword)
 
-// //book api
- router.post("/books" ,middleware,bookController.createBook)
- router.get("/books",middleware, bookController.getBooks)
- router.get("/books/:bookId",middleware ,bookController.bookDetails)
- router.put("/books/:bookId",middleware,bookController.updateBook)
- router.delete("/books/:bookId",middleware ,bookController.deleteBook)
+// // //event api
+  router.post("/event", middleware.userAuth ,eventController.createEvent)
+  router.get("/event", middleware.userAuth, eventController.geteventsByUserID)
+  router.get("/event/allInvitedEventes",middleware.userAuth, eventController.inviteEventDetails)
 
-// //review api
- router.post("/books/:bookId/review" , reviewController.createReview)
- router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
- router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
 
- 
 module.exports = router;

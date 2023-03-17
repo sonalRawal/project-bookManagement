@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const moment = require('moment')
 
 const isValid = function (value) {
     if (typeof value === 'undefined' || value === null) return false
@@ -24,32 +23,6 @@ const validatePassword = function (password) {
     return re.test(password.trim())
 };
 
-//"978-8-88-557756-6"
-const validateISBN = function (ISBN) {
-    //var re = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/ ;
-    var re = /^(?:ISBN(?:-13)?:?\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\ ]){4})[-\ 0-9]{17}$)97[89][-\ ]?[0-9]{1,5}[-\ ]?[0-9]+[-\ ]?[0-9]+[-\ ]?[0-9]$/;   
-    return re.test(ISBN.trim())
-};
-
-
-const validatePhone = function (phone) {
-    var re = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
-    if (typeof (phone) == 'string') {
-        return re.test(phone.trim())
-    } else {
-        return re.test(phone)
-    }
-};
-
-const validateRating = function (rating) {
-    var re = /^[1-5](\[1-5][1-5]?)?$/;
-    if (typeof (rating) == 'string') {
-        return re.test(rating.trim())
-    } else {
-        return re.test(rating)
-    }
-};
-
 const isValidObjectId = function (objectId) {
     return mongoose.Types.ObjectId.isValid(objectId)
 }
@@ -59,20 +32,9 @@ const validString = function (value) {
     return true;
 }
 
-const isValidDate = function (value) {
-    const validFormats = [
-        "DD/MM/YYYY",
-        "MM/DD/YYYY",
-        "YYYY/MM/DD",
-        "DD-MM-YYYY",
-        "MM-DD-YYYY",
-        "YYYY-MM-DD",
-    ]
-    return moment(value, validFormats, true).isValid()
-}
 
 
 module.exports = {
     isValid, isValidRequestBody, validateEmail, isValidTitle, isValidObjectId,
-    validatePassword, validatePhone, validateISBN, validateRating, isValidDate,validString
+    validatePassword,validString
 }
